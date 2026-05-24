@@ -24,7 +24,7 @@
   }
   .page {
     display: grid;
-    grid-template-columns: 1fr 480px;
+    grid-template-columns: 1fr 520px;
     min-height: 100vh;
   }
 
@@ -127,7 +127,7 @@
 
   .form-step { display: none; flex: 1; }
   .form-step.active { display: flex; flex-direction: column; }
-  .form-step h3 { font-size: 1.1rem; color: var(--white); margin-bottom: 8px; }
+  .form-step h3 { font-size: 1.25rem; color: var(--white); margin-bottom: 8px; }
   .form-step .step-desc { font-size: 0.85rem; color: #777; margin-bottom: 24px; }
 
   label {
@@ -220,7 +220,7 @@
   <div class="price-block">
     <p class="price-label">PRICING</p>
     <div class="price-num">$200<span>/month</span></div>
-    <p>One post per week. Posts drop every Monday. Cancel anytime. No contracts, no setup fees.</p>
+    <p>4 posts per month. Every Monday. Cancel anytime. No contracts, no setup fees.</p>
   </div>
 
   <hr>
@@ -230,9 +230,9 @@
 <!-- ===== RIGHT COLUMN: MULTI-STEP FORM ===== -->
 <div class="right">
   <div class="steps">
-    <div class="step-dot active" id="step-dot-1"><span>1</span><p>Info</p></div>
-    <div class="step-dot" id="step-dot-2"><span>2</span><p>Pay</p></div>
-    <div class="step-dot" id="step-dot-3"><span>3</span><p>Survey</p></div>
+    <div class="step-dot active" id="step-dot-1"><span>1</span><p>You</p></div>
+    <div class="step-dot" id="step-dot-2"><span>2</span><p>Checkout</p></div>
+    <div class="step-dot" id="step-dot-3"><span>3</span><p>Details</p></div>
   </div>
 
   <!-- STEP 1: CONTACT -->
@@ -241,23 +241,24 @@
     <p class="step-desc">Basic info so I can reach you.</p>
     <label>Full name</label>
     <input type="text" id="name" placeholder="Your name" required>
-    <label>Phone</label>
+    <label>Phone <span style="color:#555;font-weight:400;">(optional)</span></label>
     <input type="tel" id="phone" placeholder="(555) 555-5555">
     <label>Email</label>
     <input type="email" id="email" placeholder="you@company.com" required>
     <div class="btn-row">
       <div></div>
-      <button class="btn btn-primary" onclick="nextStep(2)">Continue to payment →</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">See pricing →</button>
     </div>
   </div>
 
   <!-- STEP 2: PAYMENT -->
   <div class="form-step" id="step-2">
-    <h3>Start your subscription</h3>
-    <p class="step-desc">$200/month. Cancel anytime. First post goes live within 7 days.</p>
+    <h3>$200/month — 4 posts every Monday</h3>
+    <p class="step-desc">Cancel anytime. First post within 7 days.</p>
     <label>Card details</label>
     <div id="card-element"></div>
     <div class="card-errors" id="card-errors"></div>
+    <p style="font-size:0.75rem;color:#555;margin-top:10px;">🔒 Secured by Stripe · Cancel anytime · No contracts</p>
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="prevStep(1)">← Back</button>
       <button class="btn btn-primary" id="pay-btn" onclick="handlePayment()">Pay $200 →</button>
