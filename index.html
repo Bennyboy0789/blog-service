@@ -3,108 +3,497 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automated Blog Posts — Ben Jarosz</title>
+<title>Automated Blog Posts — $200/mo | Ben Jarosz</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --card: #141414;
+    --border: #222;
+    --text: #bbb;
+    --text-dim: #666;
+    --white: #fff;
+    --accent: #fff;
+  }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0a0a0a;
-    color: #e0e0e0;
-    line-height: 1.7;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
   }
-  .container { max-width: 680px; margin: 0 auto; padding: 80px 24px; }
-  h1 {
+  .page {
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    min-height: 100vh;
+  }
+
+  /* === LEFT COLUMN === */
+  .left {
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 620px;
+  }
+  .left h1 {
     font-size: 2.2rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--white);
     line-height: 1.25;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
-  .subhead {
-    font-size: 1.1rem;
-    color: #999;
-    margin-bottom: 48px;
+  .left .subhead {
+    font-size: 1.05rem;
+    color: #888;
+    margin-bottom: 40px;
   }
-  h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #fff;
-    margin: 48px 0 16px;
-  }
-  p { margin-bottom: 16px; color: #bbb; }
-  .features { display: grid; gap: 16px; margin: 32px 0; }
-  .feature {
-    background: #141414;
-    border: 1px solid #222;
+  .features { display: grid; gap: 12px; margin-bottom: 40px; }
+  .feat {
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 20px;
+    padding: 16px 18px;
   }
-  .feature h3 { font-size: 1rem; color: #fff; margin-bottom: 6px; }
-  .feature p { font-size: 0.9rem; color: #888; margin: 0; }
-  .cta {
-    display: inline-block;
-    background: #fff;
-    color: #0a0a0a;
-    padding: 14px 36px;
+  .feat h3 { font-size: 0.95rem; color: var(--white); margin-bottom: 4px; }
+  .feat p { font-size: 0.85rem; color: #777; margin: 0; }
+  .left h2 {
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 8px;
+    margin-top: 32px;
+  }
+  .left p { font-size: 0.9rem; }
+  .price-block { margin: 32px 0; }
+  .price-label { font-size: 0.85rem; color: #888; }
+  .price-num { font-size: 2.8rem; font-weight: 700; color: var(--white); }
+  .price-num span { font-size: 0.9rem; color: #666; font-weight: 400; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  .footer { font-size: 0.8rem; color: #444; margin-top: auto; padding-top: 40px; }
+
+  /* === RIGHT COLUMN: FORM === */
+  .right {
+    background: #0d0d0d;
+    border-left: 1px solid var(--border);
+    padding: 60px 48px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .steps {
+    display: flex;
+    gap: 0;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .steps::after {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .step-dot {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .step-dot span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+    transition: all 0.3s;
+  }
+  .step-dot.active span { background: var(--white); color: #000; border-color: var(--white); }
+  .step-dot.done span { background: #222; color: var(--white); border-color: #444; }
+  .step-dot p { font-size: 0.7rem; color: #555; }
+  .step-dot.active p { color: #999; }
+
+  .form-step { display: none; flex: 1; }
+  .form-step.active { display: flex; flex-direction: column; }
+  .form-step h3 { font-size: 1.1rem; color: var(--white); margin-bottom: 8px; }
+  .form-step .step-desc { font-size: 0.85rem; color: #777; margin-bottom: 24px; }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 4px;
+    margin-top: 16px;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--white);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #555;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23666' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 32px;
     border-radius: 6px;
     font-weight: 600;
-    text-decoration: none;
-    margin-top: 32px;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    margin-top: auto;
   }
-  .cta:hover { background: #ddd; }
-  .price {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 8px 0;
+  .btn-primary { background: var(--white); color: #000; }
+  .btn-primary:hover { background: #ddd; }
+  .btn-secondary { background: transparent; color: #888; padding: 8px 16px; margin-top: 8px; font-size: 0.8rem; }
+  .btn-secondary:hover { color: var(--white); }
+  .btn-row { display: flex; gap: 12px; margin-top: auto; padding-top: 24px; }
+
+  #card-element {
+    padding: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-top: 12px;
+    min-height: 45px;
   }
-  .price span { font-size: 1rem; color: #888; font-weight: 400; }
-  hr { border: none; border-top: 1px solid #222; margin: 48px 0; }
-  .footer { font-size: 0.85rem; color: #555; margin-top: 64px; }
+  .card-errors { color: #e74c3c; font-size: 0.8rem; margin-top: 8px; min-height: 1.2em; }
+
+  .success-state { text-align: center; padding: 40px 0; display: none; }
+  .success-state h3 { font-size: 1.4rem; margin-bottom: 12px; }
+  .success-state p { color: #888; font-size: 0.9rem; }
+
+  .survey-section { margin-bottom: 20px; }
+  .survey-section h4 { font-size: 0.85rem; color: #aaa; margin-bottom: 4px; }
+
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; }
+    .left { padding: 40px 24px 20px; max-width: 100%; }
+    .right { position: static; height: auto; padding: 32px 24px 60px; border-left: none; border-top: 1px solid var(--border); }
+  }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="page">
 
+<!-- ===== LEFT COLUMN ===== -->
+<div class="left">
   <h1>Blog posts that write, research, and publish themselves. On a schedule. Forever.</h1>
   <p class="subhead">Your website stays active. Google stays happy. You don't lift a finger.</p>
 
   <div class="features">
-    <div class="feature">
-      <h3>🔍 Researches topics automatically</h3>
-      <p>Finds what your audience is searching for and what your competitors are ranking for. Every post is built on real keyword data.</p>
-    </div>
-    <div class="feature">
-      <h3>✍️ Writes the full post</h3>
-      <p>Well-structured, readable content formatted for your website. Not generic filler — posts that actually sound like your brand.</p>
-    </div>
-    <div class="feature">
-      <h3>📅 Publishes on schedule</h3>
-      <p>You pick the cadence. Weekly, biweekly, whatever. Posts go live without you touching anything.</p>
-    </div>
-    <div class="feature">
-      <h3>🔗 Internal linking + formatting</h3>
-      <p>Links to your other pages, proper headings, meta descriptions — all the SEO basics handled.</p>
-    </div>
+    <div class="feat"><h3>🔍 Researches topics automatically</h3><p>Real keyword data. What your audience searches for, what competitors rank for.</p></div>
+    <div class="feat"><h3>✍️ Writes the full post</h3><p>Structured, readable, in your brand voice. Never generic filler.</p></div>
+    <div class="feat"><h3>📅 Publishes on schedule</h3><p>You pick the cadence. Posts go live without you touching anything.</p></div>
+    <div class="feat"><h3>🔗 Internal linking + formatting</h3><p>Links, headings, meta — all SEO basics handled automatically.</p></div>
   </div>
 
   <h2>How it works</h2>
-  <p>You give me access to your site. I plug it into the pipeline. Posts start going live on your schedule. You get a notification when each one publishes. That's it.</p>
-  <p>Works with WordPress, Webflow, Next.js, or anything with an API. If your site can accept a post, it works.</p>
+  <p>You fill out the form. I plug your site into the pipeline. Posts start going live on your schedule. You get a notification when each one publishes.</p>
+  <p style="color:#888;">Works with WordPress, Webflow, Next.js, or anything with an API.</p>
 
-  <hr>
-
-  <p style="color:#888; font-size: 0.9rem;">PRICING</p>
-  <div class="price">$200<span>/month</span></div>
-  <p>One post per week. Cancel anytime. No contracts, no setup fees.</p>
-
-  <a href="https://m.me/benjarosz" class="cta">Message me to get started</a>
-
-  <div class="footer">
-    Built by Ben Jarosz · Questions? DM me on Facebook or Instagram @realbenjarosz
+  <div class="price-block">
+    <p class="price-label">PRICING</p>
+    <div class="price-num">$200<span>/month</span></div>
+    <p>One post per week. Cancel anytime. No contracts, no setup fees.</p>
   </div>
 
+  <hr>
+  <div class="footer">Built by Ben Jarosz · @realbenjarosz</div>
 </div>
+
+<!-- ===== RIGHT COLUMN: MULTI-STEP FORM ===== -->
+<div class="right">
+  <div class="steps">
+    <div class="step-dot active" id="step-dot-1"><span>1</span><p>Info</p></div>
+    <div class="step-dot" id="step-dot-2"><span>2</span><p>Pay</p></div>
+    <div class="step-dot" id="step-dot-3"><span>3</span><p>Survey</p></div>
+  </div>
+
+  <!-- STEP 1: CONTACT -->
+  <div class="form-step active" id="step-1">
+    <h3>Let's get started</h3>
+    <p class="step-desc">Basic info so I can reach you.</p>
+    <label>Full name</label>
+    <input type="text" id="name" placeholder="Your name" required>
+    <label>Phone</label>
+    <input type="tel" id="phone" placeholder="(555) 555-5555">
+    <label>Email</label>
+    <input type="email" id="email" placeholder="you@company.com" required>
+    <div class="btn-row">
+      <div></div>
+      <button class="btn btn-primary" onclick="nextStep(2)">Continue to payment →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: PAYMENT -->
+  <div class="form-step" id="step-2">
+    <h3>Start your subscription</h3>
+    <p class="step-desc">$200/month. Cancel anytime. First post goes live within 7 days.</p>
+    <label>Card details</label>
+    <div id="card-element"></div>
+    <div class="card-errors" id="card-errors"></div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prevStep(1)">← Back</button>
+      <button class="btn btn-primary" id="pay-btn" onclick="handlePayment()">Pay $200 →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: SURVEY -->
+  <div class="form-step" id="step-3">
+    <h3>Tell me about your business</h3>
+    <p class="step-desc">The more detail, the better the posts. This is what lets me write at 95% confidence without bugging you.</p>
+
+    <div class="survey-section">
+      <h4>Basics</h4>
+      <label>Business name</label>
+      <input type="text" id="biz-name" placeholder="Acme Inc." required>
+      <label>Website URL</label>
+      <input type="url" id="biz-url" placeholder="https://yoursite.com" required>
+      <label>Industry / niche</label>
+      <input type="text" id="biz-industry" placeholder="e.g., HVAC, real estate, SaaS, chiropractic">
+    </div>
+
+    <div class="survey-section">
+      <h4>Products &amp; Audience</h4>
+      <label>What does your business do? (1-2 sentences)</label>
+      <textarea id="biz-description" placeholder="We help small business owners reduce their tax burden through strategic planning…"></textarea>
+      <label>Who is your ideal customer?</label>
+      <textarea id="biz-audience" placeholder="Small business owners, 35-55, $100k-500k revenue, overwhelmed by bookkeeping…"></textarea>
+    </div>
+
+    <div class="survey-section">
+      <h4>Brand Voice</h4>
+      <label>How would you describe your brand's voice?</label>
+      <select id="biz-voice">
+        <option value="">Select one…</option>
+        <option>Professional &amp; authoritative</option>
+        <option>Friendly &amp; conversational</option>
+        <option>Technical &amp; detailed</option>
+        <option>Bold &amp; direct</option>
+        <option>Warm &amp; empathetic</option>
+        <option>Educational &amp; helpful</option>
+      </select>
+    </div>
+
+    <div class="survey-section">
+      <h4>Content Strategy</h4>
+      <label>What topics do you want blog posts about? (3-5 specific topics)</label>
+      <textarea id="biz-topics" placeholder="1. Tax planning strategies for Q4&#10;2. Common audit triggers and how to avoid them&#10;3. Business entity selection guide&#10;4. …"></textarea>
+      <label>Any topics to avoid?</label>
+      <input type="text" id="biz-avoid" placeholder="e.g., political content, competitor bashing, financial advice">
+      <label>What keywords or phrases do you want to rank for?</label>
+      <textarea id="biz-keywords" placeholder="small business tax planning, LLC vs S-corp, quarterly tax filing tips…"></textarea>
+    </div>
+
+    <div class="survey-section">
+      <h4>Competitors</h4>
+      <label>Who are your top 3 competitors? (names or URLs)</label>
+      <textarea id="biz-competitors" placeholder="1. competitor.com&#10;2. anotherfirm.com&#10;3. …"></textarea>
+      <label>What makes you different from them?</label>
+      <textarea id="biz-usp" placeholder="We offer flat-fee pricing with no hourly billing surprises. Free consultation included."></textarea>
+    </div>
+
+    <div class="survey-section">
+      <h4>Logistics</h4>
+      <label>Preferred posting frequency</label>
+      <select id="biz-frequency">
+        <option value="weekly">Weekly (4 posts/month)</option>
+        <option value="biweekly">Biweekly (2 posts/month)</option>
+        <option value="monthly">Monthly (1 post/month)</option>
+      </select>
+      <label>Who reviews/approves posts before they go live?</label>
+      <input type="text" id="biz-approver" placeholder="Name and email of approver">
+      <label>What's the main action you want readers to take?</label>
+      <input type="text" id="biz-cta" placeholder="e.g., Book a consultation, call for a quote, download a guide">
+      <label>Any specific offers or promotions to highlight?</label>
+      <input type="text" id="biz-offers" placeholder="e.g., Free 30-min consultation, 10% off first service">
+      <label>Anything else I should know?</label>
+      <textarea id="biz-notes" placeholder="Existing content, brand guidelines, things you've tried before…"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
+      <button class="btn btn-primary" id="submit-btn" onclick="handleSubmit()">Submit &amp; get started</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div class="success-state" id="success">
+    <h3>✓ You're in</h3>
+    <p>Payment processed. I'll reach out within 24 hours to get your site connected. First post goes live within 7 days.</p>
+    <p style="color:#888; margin-top:16px;">Questions? DM me @realbenjarosz</p>
+  </div>
+</div>
+
+</div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// Step navigation
+let currentStep = 1;
+
+function showStep(n) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step-dot').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  document.getElementById('step-dot-' + n).classList.add('active');
+  // Mark done
+  for (let i = 1; i < n; i++) document.getElementById('step-dot-' + i).classList.add('done');
+  for (let i = n + 1; i <= 3; i++) document.getElementById('step-dot-' + i).classList.remove('done');
+  currentStep = n;
+}
+
+function nextStep(n) {
+  // Validate step 1
+  if (currentStep === 1) {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  }
+  showStep(n);
+  if (n === 2) setupStripe();
+}
+
+function prevStep(n) { showStep(n); }
+
+// Stripe
+let stripe, elements, card;
+const STRIPE_KEY = 'pk_live_51RGi7PIPo4gXvqkqQIx4iKlkqKTFBOPMKMN38C9QKcB99l1zY5xMTbfn5y76NVHHURxZvEnnccMnUJjKeWKRjZfj00mIh7dH3P';
+
+function setupStripe() {
+  if (card) return;
+  stripe = Stripe(STRIPE_KEY);
+  elements = stripe.elements();
+  card = elements.create('card', {
+    style: {
+      base: {
+        color: '#fff',
+        fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+        fontSize: '15px',
+        '::placeholder': { color: '#555' }
+      },
+      invalid: { color: '#e74c3c' }
+    }
+  });
+  card.mount('#card-element');
+  card.on('change', e => {
+    document.getElementById('card-errors').textContent = e.error ? e.error.message : '';
+  });
+}
+
+async function handlePayment() {
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+
+  const {error, paymentMethod} = await stripe.createPaymentMethod({
+    type: 'card',
+    card: card,
+    billing_details: {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value
+    }
+  });
+
+  if (error) {
+    document.getElementById('card-errors').textContent = error.message;
+    btn.disabled = false;
+    btn.textContent = 'Pay $200 →';
+    return;
+  }
+
+  // Send to backend
+  try {
+    const res = await fetch('/api/create-subscription', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        paymentMethodId: paymentMethod.id,
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Payment failed');
+    showStep(3);
+  } catch (e) {
+    document.getElementById('card-errors').textContent = e.message;
+    btn.disabled = false;
+    btn.textContent = 'Pay $200 →';
+  }
+}
+
+async function handleSubmit() {
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  const survey = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    bizName: document.getElementById('biz-name').value,
+    bizUrl: document.getElementById('biz-url').value,
+    industry: document.getElementById('biz-industry').value,
+    description: document.getElementById('biz-description').value,
+    audience: document.getElementById('biz-audience').value,
+    voice: document.getElementById('biz-voice').value,
+    topics: document.getElementById('biz-topics').value,
+    avoid: document.getElementById('biz-avoid').value,
+    keywords: document.getElementById('biz-keywords').value,
+    competitors: document.getElementById('biz-competitors').value,
+    usp: document.getElementById('biz-usp').value,
+    frequency: document.getElementById('biz-frequency').value,
+    approver: document.getElementById('biz-approver').value,
+    cta: document.getElementById('biz-cta').value,
+    offers: document.getElementById('biz-offers').value,
+    notes: document.getElementById('biz-notes').value
+  };
+
+  try {
+    const res = await fetch('/api/save-survey', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(survey)
+    });
+    if (!res.ok) throw new Error('Failed to save');
+  } catch (e) {
+    // Still show success — we have the payment already
+  }
+
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('success').style.display = 'block';
+  document.getElementById('step-dot-3').classList.add('done');
+  document.getElementById('step-dot-3').classList.add('active');
+}
+</script>
 </body>
 </html>
