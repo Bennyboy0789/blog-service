@@ -131,6 +131,10 @@
   .btn-text:hover { opacity: 0.7; }
   #card-element { padding: 16px; background: var(--white); border: 1px solid var(--border); border-radius: 14px; margin-top: 12px; min-height: 45px; box-shadow: var(--shadow-sm); }
   .card-errors { color: #d43d2e; font-size: 0.82rem; margin-top: 10px; min-height: 1.2em; }
+  .outcome-box { display: flex; align-items: flex-start; gap: 14px; background: rgba(52,199,89,0.06); border: 1px solid rgba(52,199,89,0.15); border-radius: 14px; padding: 18px 20px; margin-bottom: 28px; }
+  .outcome-icon { width: 32px; height: 32px; border-radius: 50%; background: #34c759; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+  .outcome-text strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 4px; }
+  .outcome-text span { color: var(--text-secondary); font-size: 0.84rem; line-height: 1.5; }
   .survey-section { margin-bottom: 28px; }
   .survey-section h4 { font-size: 0.8rem; color: var(--accent); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
   .success-state { text-align: center; padding: 48px 0; display: none; }
@@ -458,6 +462,13 @@
     <div class="form-step" id="step-3">
       <h3>$200/month</h3>
       <p class="step-desc">One post every Monday. Cancel anytime. First post within 7 days.</p>
+      <div class="outcome-box" id="outcome-box" style="display:none;">
+        <div class="outcome-icon">✓</div>
+        <div class="outcome-text">
+          <strong>Your first post is ready to go.</strong>
+          <span id="outcome-detail"></span>
+        </div>
+      </div>
       <label>Card details</label>
       <div id="card-element"></div>
       <div class="card-errors" id="card-errors"></div>
@@ -523,6 +534,13 @@ async function saveSurveyAndContinue() {
   try {
     const res = await fetch('/api/save-survey', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(survey) });
     if (!res.ok) throw new Error('Failed to save');
+
+    // Build personalized outcome
+    const industry = (document.getElementById('biz-industry').value || 'your industry').toLowerCase();
+    const outcomeEl = document.getElementById('outcome-detail');
+    outcomeEl.textContent = `Your first post targets customers searching for "${industry}" services. It goes live this Monday. No meetings, no approvals — just researched, SEO-optimized content on your site, every week.`;
+    document.getElementById('outcome-box').style.display = 'flex';
+
     showStep(3);
     setupStripe();
   } catch (e) { alert('Error saving: ' + e.message); }
