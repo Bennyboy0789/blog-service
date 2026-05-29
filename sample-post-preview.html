@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample Blog Post Preview — Write My Posts</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #f5f5f7;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .browser-frame {
+    width: 100%;
+    max-width: 780px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .browser-chrome {
+    background: #e8e8ed;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.red { background: #ff5f57; }
+  .dot.yellow { background: #febc2e; }
+  .dot.green { background: #28c840; }
+
+  .url-bar {
+    flex: 1;
+    background: #fff;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.72rem;
+    color: #6e6e73;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* === FEATURED IMAGE === */
+  .featured-image { width: 100%; display: block; }
+
+  /* === POST CONTENT === */
+  .post-body {
+    padding: 48px 56px 56px;
+    color: #1a1a1a;
+    line-height: 1.8;
+  }
+
+  .breadcrumb {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.78rem;
+    color: #86868b;
+    margin-bottom: 20px;
+  }
+
+  .post-body h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    color: #111;
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.85rem;
+    color: #86868b;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e8e8ed;
+  }
+
+  /* === KEY TAKEAWAYS (per Writer SOP: 3-5 bullets, scannable) === */
+  .takeaways {
+    background: #f9f9fb;
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .takeaways h2 {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0071e3;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .takeaways ul {
+    list-style: none;
+    padding: 0;
+  }
+  .takeaways li {
+    padding: 5px 0;
+    font-size: 0.92rem;
+    color: #333;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.55;
+  }
+  .takeaways li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0071e3;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  /* === BODY TEXT === */
+  .post-body p {
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+    color: #2a2a2a;
+  }
+
+  .post-body h2 {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 36px 0 12px;
+    color: #111;
+    letter-spacing: -0.01em;
+  }
+
+  /* === FAQ (per Writer SOP: natural phrasing, concise answers) === */
+  .faq-section {
+    margin-top: 36px;
+    border-top: 1px solid #e8e8ed;
+    padding-top: 28px;
+  }
+  .faq-section h2 {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 20px;
+  }
+  .faq-item { margin-bottom: 18px; }
+  .faq-item .q {
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+  }
+  .faq-item .a {
+    color: #444;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* === CTA BOX === */
+  .cta-box {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 26px 30px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 36px 0 0;
+  }
+  .cta-box strong { color: #fff; font-size: 1.05rem; }
+  .cta-box p { color: #bbb; font-size: 0.88rem; margin: 4px 0 0; }
+
+  /* === SCROLL INDICATOR === */
+  .scroll-indicator {
+    text-align: center;
+    padding: 28px 0 8px;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #aeaeb2;
+    font-size: 0.82rem;
+  }
+  .scroll-indicator .arrow { display: block; font-size: 1.2rem; margin-bottom: 4px; }
+
+  /* === TRUNCATION OVERLAY === */
+  .truncation {
+    position: relative;
+  }
+  .truncation::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 140px;
+    background: linear-gradient(to bottom, transparent, #fff 75%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    .post-body { padding: 32px 28px 40px; }
+    .post-body h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="browser-frame">
+  <!-- BROWSER CHROME -->
+  <div class="browser-chrome">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    <div class="url-bar">🔒 yourbusiness.com/blog/back-pain-warning-signs</div>
+  </div>
+
+  <!-- FEATURED IMAGE (editorial illustration per Media Producer SOP) -->
+  <img class="featured-image" src="featured-image-preview.png" alt="Editorial illustration of a spine depicted with organic forms and warm healing tones — representing a chiropractic blog post about back pain">
+
+  <!-- POST CONTENT (following Writer SOP structure) -->
+  <div class="post-body">
+    <div class="breadcrumb">Blog</div>
+
+    <h1>5 Warning Signs Your Back Pain Needs Professional Attention</h1>
+
+    <div class="meta">By Your Name Here · May 26, 2026 · 7 min read</div>
+
+    <!-- KEY TAKEAWAYS (Writer SOP: Step 1, 3-5 bullets, scannable) -->
+    <div class="takeaways">
+      <h2>Key Takeaways</h2>
+      <ul>
+        <li>Back pain that lasts longer than 2 weeks — or comes and goes in the same spot — rarely resolves on its own and often signals an underlying issue that rest alone won't fix</li>
+        <li>Pain that radiates down your leg, causes numbness, or is accompanied by weakness could indicate nerve involvement that needs imaging, not just ibuprofen</li>
+        <li>Stiffness that's worse in the morning and eases with movement often points to an inflammatory component — waiting for it to "go away" usually makes it worse</li>
+        <li>The right intervention early (targeted adjustments, soft tissue work, specific exercises) can prevent a $300 problem from becoming a $30,000 surgery</li>
+      </ul>
+    </div>
+
+    <!-- INTRODUCTION (Writer SOP: Step 2, hook with relatable scenario, keyword in first 100 words) -->
+    <p>You wake up, swing your legs out of bed, and that familiar tightness is waiting for you in your lower back. You stretch a little. Walk it off. Tell yourself it'll loosen up by noon. And sometimes it does. But lately, it hasn't been loosening up. Lately, it's been sticking around.</p>
+
+    <p>Here's the thing about back pain that nobody tells you: your body isn't just complaining. It's communicating. Every ache, every twinge, every "huh, that feels tight today" is data. The question is whether you're listening — or whether you're just hoping it'll go quiet on its own.</p>
+
+    <p>I've treated thousands of backs in my practice. And I can tell you from experience: the patients who come in early, when the pain is still a warning and not a crisis, have dramatically better outcomes. They get better faster. They stay better longer. And they rarely end up on a surgeon's schedule. So let's walk through what your back is trying to tell you.</p>
+
+    <!-- FIRST H2 SECTION (Writer SOP: Step 3, varied sentences, personal pronouns, active voice) -->
+    <h2>1. The pain has been hanging around for more than two weeks</h2>
+
+    <p>Acute back pain — the kind you get from moving a couch wrong or sleeping in a weird position — usually resolves within a few days. Maybe a week. Your body handles inflammation, muscles repair, and you're back to normal. That's the system working the way it should.</p>
+
+    <p>Pain that's still there after two weeks is telling you something different. It's not a one-time strain. Something is off mechanically — a joint that's not moving right, a muscle group that's overcompensating, an old injury that never fully healed. And here's the part most people get wrong: resting it longer usually doesn't help at this stage. The body adapts to the dysfunction. It creates new movement patterns to work around the problem, and those patterns become the new normal. Now you've got a structural habit, not just a temporary injury.</p>
+
+    <p>I had a patient — let's call him Mike — who "rested" his back for six weeks. By the time he came in, his right hip had shifted forward to compensate and he was walking with a subtle limp he didn't even notice. It took us three times as long to unwind all the compensation patterns as it would have taken to fix the original issue in week two.</p>
+
+    <!-- FAQ SECTION (Writer SOP: Step 4) -->
+    <div class="faq-section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="q">Q: How do I know if my back pain is muscle-related or something more serious?</div>
+        <div class="a">Muscle pain tends to feel achy, sore, or tight and usually improves with gentle movement. Pain that's sharp, stabbing, radiates down your leg, or comes with numbness or weakness is more likely nerve-related or structural. If you're not sure — and especially if it's been more than two weeks — get evaluated. Guessing wrong can delay the treatment you actually need.</div>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q: Can chiropractic care actually fix back pain or does it just mask it?</div>
+        <div class="a">Proper chiropractic care addresses the mechanical root of the problem — restricted joints, muscle imbalances, and movement dysfunction — rather than just numbing the symptom. Adjustments restore proper joint motion. Soft tissue work releases chronic muscle tension. Rehab exercises retrain the patterns that caused the problem. Together, they address the "why," not just the "where."</div>
+      </div>
+    </div>
+
+    <!-- TRUNCATION — content continues... -->
+    <div class="truncation"></div>
+
+    <div class="scroll-indicator">
+      <span class="arrow">⋮</span>
+      And 3 more sections — delivered every Monday, fully researched and ready to publish
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
