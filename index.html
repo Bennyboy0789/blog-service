@@ -133,6 +133,13 @@
   .success-state h3 { font-size: 1.8rem; font-weight: 800; color: var(--text); margin-bottom: 12px; letter-spacing: -0.02em; }
   .success-state p { color: var(--text-secondary); font-size: 0.95rem; }
 
+  /* === FAQ === */
+  .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 780px; margin: 0 auto; }
+  .faq-card { background: var(--white); border-radius: 16px; padding: 28px; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s; }
+  .faq-card:hover { box-shadow: var(--shadow-md); }
+  .faq-card h3 { color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .faq-card p { font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.6; }
+
   /* === SAMPLE POST IFRAME === */
   .sample-frame {
     max-width: 780px;
@@ -164,6 +171,7 @@
     .price-card { padding: 40px 28px; }
     .price-card .price { font-size: 3.5rem; }
     .sample-frame iframe { height: 500px; }
+    .faq-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -173,10 +181,10 @@
 <section class="hero-sec">
   <div class="eyebrow">Blog posts, fully automated</div>
   <h1>Your blog.<br><span>Every week. Done.</span></h1>
-  <p class="hero-sub">One researched, SEO-optimized post published to your site every Monday. You don't write a word. $200/month.</p>
+  <p class="hero-sub">One researched, SEO-optimized post published to your site every Monday. You don't write a word. Customers find you on Google instead of your competitors. $200/month.</p>
   <div class="hero-cta">
     <input type="email" id="hero-email" placeholder="you@company.com">
-    <a href="#signup-form" class="btn btn-primary">Get started</a>
+    <a href="#signup-form" class="btn btn-primary">Get your first post free</a>
   </div>
   <p class="hero-note">First post free. Cancel anytime. No contracts.</p>
 </section>
@@ -185,7 +193,7 @@
 <section class="white" style="padding-top:80px;padding-bottom:80px;">
   <div class="proof-row">
     <div class="proof-stat"><div class="num">52+</div><div class="label">Posts per year, per client</div></div>
-    <div class="proof-stat"><div class="num">100%</div><div class="label">Hands-off. Zero approvals.</div></div>
+    <div class="proof-stat"><div class="num">No</div><div class="label">Meetings. Approvals. Hassle.</div></div>
     <div class="proof-stat"><div class="num">5★</div><div class="label">Average client rating</div></div>
   </div>
 </section>
@@ -253,6 +261,25 @@
   </div>
 </section>
 
+<!-- ========== WHO IT'S FOR ========== -->
+<section>
+  <span class="section-label">Who it's for</span>
+  <h2>Your blog hasn't been<br>updated since 2019.</h2>
+  <p class="section-sub">That's okay. We fix it.</p>
+  <div class="who-grid">
+    <div class="who-chip">Chiropractors</div>
+    <div class="who-chip">HVAC Companies</div>
+    <div class="who-chip">Roofers</div>
+    <div class="who-chip">Dentists</div>
+    <div class="who-chip">Plumbers</div>
+    <div class="who-chip">Home Builders</div>
+    <div class="who-chip">Law Firms</div>
+    <div class="who-chip">Solar Companies</div>
+    <div class="who-chip">Landscapers</div>
+  </div>
+  <p class="who-note">You know you need content. You've heard SEO matters. But you're running a business — you're not going to sit down and write a blog post. <strong style="color:var(--text);">This fixes it.</strong></p>
+</section>
+
 <!-- ========== SAMPLE POST ========== -->
 <section class="white" id="sample-post">
   <span class="section-label">See the quality</span>
@@ -281,7 +308,7 @@
       <li>Auto-published — no approvals needed</li>
       <li>Cancel anytime, no questions</li>
     </ul>
-    <a href="#signup-form" class="btn btn-primary" style="width:100%">Get started</a>
+    <a href="#signup-form" class="btn btn-primary" style="width:100%">Get your first post free</a>
   </div>
 </section>
 
@@ -294,23 +321,37 @@
   </div>
 </section>
 
-<!-- ========== WHO IT'S FOR ========== -->
+<!-- ========== FAQ ========== -->
 <section>
-  <span class="section-label">Who it's for</span>
-  <h2>Your blog hasn't been<br>updated since 2019.</h2>
-  <p class="section-sub">That's okay. We fix it.</p>
-  <div class="who-grid">
-    <div class="who-chip">Chiropractors</div>
-    <div class="who-chip">HVAC Companies</div>
-    <div class="who-chip">Roofers</div>
-    <div class="who-chip">Dentists</div>
-    <div class="who-chip">Plumbers</div>
-    <div class="who-chip">Home Builders</div>
-    <div class="who-chip">Law Firms</div>
-    <div class="who-chip">Solar Companies</div>
-    <div class="who-chip">Landscapers</div>
+  <span class="section-label">Common questions</span>
+  <h2>You're probably wondering.</h2>
+  <p class="section-sub">If yours isn't here, ask. No sales pitch. Just answers.</p>
+  <div class="faq-grid">
+    <div class="faq-card">
+      <h3>Is this AI-generated?</h3>
+      <p>We use AI as a research and drafting tool — the same way a writer uses Google and a spellchecker. But every post is written to sound like a person in your industry wrote it. If it reads like generic AI filler, we rewrite it. The sample above is real output.</p>
+    </div>
+    <div class="faq-card">
+      <h3>What if I don't like the topic you picked?</h3>
+      <p>You can send us topics anytime. If you don't, we research what your customers are searching for and pick topics that give you the best shot at ranking. If you ever hate a topic, tell us and we'll swap it — no extra charge.</p>
+    </div>
+    <div class="faq-card">
+      <h3>Can I request revisions?</h3>
+      <p>Yes. If a post doesn't sound like you or misses something important, we'll revise it. Most clients never do — the survey you fill out gives us enough to nail it from the start.</p>
+    </div>
+    <div class="faq-card">
+      <h3>What platforms do you publish to?</h3>
+      <p>WordPress is our default and what we recommend. If you're on Webflow, Squarespace, or another CMS, we can usually make it work — tell us what you're on and we'll confirm.</p>
+    </div>
+    <div class="faq-card">
+      <h3>How do you research my industry?</h3>
+      <p>We analyze your competitors' content, check what's ranking for your target keywords, and use the survey you fill out to understand your specific audience. Every post is researched for your business — not templated from a generic niche.</p>
+    </div>
+    <div class="faq-card">
+      <h3>What if I want to cancel?</h3>
+      <p>Cancel anytime. No questions, no retention scripts, no hassle. You'll still get any posts you've already paid for. We'd rather you stay because it's working, not because you're locked in.</p>
+    </div>
   </div>
-  <p class="who-note">You know you need content. You've heard SEO matters. But you're running a business — you're not going to sit down and write a blog post. <strong style="color:var(--text);">This fixes it.</strong></p>
 </section>
 
 <!-- ========== SIGNUP FORM ========== -->
