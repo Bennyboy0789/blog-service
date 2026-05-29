@@ -7,6 +7,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-444089277"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-444089277');
+</script>
+<!-- Facebook Pixel (add your Pixel ID) -->
+<!-- <script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','YOUR_PIXEL_ID');fbq('track','PageView');
+</script> -->
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -308,6 +320,7 @@
       <li>Auto-published — no approvals needed</li>
       <li>Cancel anytime, no questions</li>
     </ul>
+    <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:24px;text-align:center;">Your competitors publish every week. Every Monday you wait is a post that could've been yours.</p>
     <a href="#signup-form" class="btn btn-primary" style="width:100%">Get your first post free</a>
   </div>
 </section>
@@ -362,10 +375,11 @@
   <div class="form-wrapper">
     <div class="steps">
       <div class="step-dot active" id="step-dot-1"><span>1</span><p>You</p></div>
-      <div class="step-dot" id="step-dot-2"><span>2</span><p>Checkout</p></div>
-      <div class="step-dot" id="step-dot-3"><span>3</span><p>Details</p></div>
+      <div class="step-dot" id="step-dot-2"><span>2</span><p>Details</p></div>
+      <div class="step-dot" id="step-dot-3"><span>3</span><p>Checkout</p></div>
     </div>
 
+    <!-- STEP 1: Contact Info -->
     <div class="form-step active" id="step-1">
       <h3>Let's get started</h3>
       <p class="step-desc">Basic info so I can reach you.</p>
@@ -381,23 +395,10 @@
       </div>
     </div>
 
+    <!-- STEP 2: Survey (moved before payment) -->
     <div class="form-step" id="step-2">
-      <h3>$200/month</h3>
-      <p class="step-desc">One post every Monday. Cancel anytime. First post within 7 days.</p>
-      <label>Card details</label>
-      <div id="card-element"></div>
-      <div class="card-errors" id="card-errors"></div>
-      <p style="font-size:0.8rem;color:var(--text-tertiary);margin-top:12px;">Secured by Stripe · Cancel anytime · No contracts</p>
-      <p style="font-size:0.85rem;color:var(--text);margin-top:10px;font-weight:500;">First post is free. Your card is saved now but won't be charged until after your first post goes live.</p>
-      <div class="btn-row">
-        <button class="btn-text" onclick="prevStep(1)">← Back</button>
-        <button class="btn btn-primary" id="pay-btn" onclick="handlePayment()">Start free trial →</button>
-      </div>
-    </div>
-
-    <div class="form-step" id="step-3">
       <h3>Tell me about your business</h3>
-      <p class="step-desc">The more detail, the better the posts.</p>
+      <p class="step-desc">The more detail, the better the posts. Takes about 5 minutes.</p>
       <div class="survey-section">
         <h4>Basics</h4>
         <label>Business name</label>
@@ -455,8 +456,23 @@
         <textarea id="biz-notes" placeholder="Existing content, brand guidelines, things you've tried…"></textarea>
       </div>
       <div class="btn-row">
+        <button class="btn-text" onclick="prevStep(1)">← Back</button>
+        <button class="btn btn-primary" id="survey-btn" onclick="saveSurveyAndContinue()">Save & continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Payment (moved after survey) -->
+    <div class="form-step" id="step-3">
+      <h3>$200/month</h3>
+      <p class="step-desc">One post every Monday. Cancel anytime. First post within 7 days.</p>
+      <label>Card details</label>
+      <div id="card-element"></div>
+      <div class="card-errors" id="card-errors"></div>
+      <p style="font-size:0.8rem;color:var(--text-tertiary);margin-top:12px;">Secured by Stripe · Cancel anytime · No contracts</p>
+      <p style="font-size:0.85rem;color:var(--text);margin-top:10px;font-weight:500;">First post is free. Your card is saved now but won't be charged until after your first post goes live.</p>
+      <div class="btn-row">
         <button class="btn-text" onclick="prevStep(2)">← Back</button>
-        <button class="btn btn-primary" id="submit-btn" onclick="handleSubmit()">Submit & get started</button>
+        <button class="btn btn-primary" id="pay-btn" onclick="handlePayment()">Start free trial →</button>
       </div>
     </div>
 
@@ -492,9 +508,33 @@ function nextStep(n) {
     if (!name || !email) { alert('Please fill in your name and email.'); return; }
   }
   showStep(n);
-  if (n === 2) setupStripe();
 }
 function prevStep(n) { showStep(n); }
+
+// Save survey data, then advance to payment step
+async function saveSurveyAndContinue() {
+  const btn = document.getElementById('survey-btn');
+  const bizName = document.getElementById('biz-name').value.trim();
+  const bizUrl = document.getElementById('biz-url').value.trim();
+  if (!bizName || !bizUrl) { alert('Please fill in your business name and website URL.'); return; }
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+  const survey = {
+    name: document.getElementById('name').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value,
+    bizName: bizName, bizUrl: bizUrl, industry: document.getElementById('biz-industry').value,
+    description: document.getElementById('biz-description').value, audience: document.getElementById('biz-audience').value, voice: document.getElementById('biz-voice').value,
+    topics: document.getElementById('biz-topics').value, avoid: document.getElementById('biz-avoid').value, keywords: document.getElementById('biz-keywords').value,
+    competitors: document.getElementById('biz-competitors').value, usp: document.getElementById('biz-usp').value, frequency: document.getElementById('biz-frequency').value,
+    approver: document.getElementById('biz-approver').value, cta: document.getElementById('biz-cta').value, notes: document.getElementById('biz-notes').value
+  };
+  try {
+    const res = await fetch('/api/save-survey', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(survey) });
+    if (!res.ok) throw new Error('Failed to save');
+    showStep(3);
+    setupStripe();
+  } catch (e) { alert('Error saving: ' + e.message); }
+  btn.disabled = false; btn.textContent = 'Save & continue →';
+}
 
 let stripe, elements, card;
 const STRIPE_KEY = 'pk_live_LZPhXerzTjP8KiBYWmxwLbC8';
@@ -526,30 +566,12 @@ async function handlePayment() {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Payment failed');
-    showStep(3);
-  } catch (e) {
-    document.getElementById('card-errors').textContent = e.message;
-    btn.disabled = false; btn.textContent = 'Pay $200 →';
-  }
-}
-async function handleSubmit() {
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true; btn.textContent = 'Submitting…';
-  const survey = {
-    name: document.getElementById('name').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value,
-    bizName: document.getElementById('biz-name').value, bizUrl: document.getElementById('biz-url').value, industry: document.getElementById('biz-industry').value,
-    description: document.getElementById('biz-description').value, audience: document.getElementById('biz-audience').value, voice: document.getElementById('biz-voice').value,
-    topics: document.getElementById('biz-topics').value, avoid: document.getElementById('biz-avoid').value, keywords: document.getElementById('biz-keywords').value,
-    competitors: document.getElementById('biz-competitors').value, usp: document.getElementById('biz-usp').value, frequency: document.getElementById('biz-frequency').value,
-    approver: document.getElementById('biz-approver').value, cta: document.getElementById('biz-cta').value, notes: document.getElementById('biz-notes').value
-  };
-  try {
-    const res = await fetch('/api/save-survey', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(survey) });
-    if (!res.ok) throw new Error('Failed to save survey');
     document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
     document.getElementById('success').style.display = 'block';
-  } catch (e) { alert('Error: ' + e.message); }
-  btn.disabled = false; btn.textContent = 'Submit & get started';
+  } catch (e) {
+    document.getElementById('card-errors').textContent = e.message;
+    btn.disabled = false; btn.textContent = 'Start free trial →';
+  }
 }
 
 document.querySelector('.hero-cta .btn').addEventListener('click', function(e) {
