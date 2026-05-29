@@ -217,7 +217,7 @@
     <div class="step-card">
       <div class="step-icon">🚀</div>
       <h3>Published every Monday</h3>
-      <p>Posts go live automatically. You get an email. Four posts a month. Your site stays alive.</p>
+      <p>Posts go live automatically. You get an email. Four posts a month. New customers find you.</p>
     </div>
   </div>
 </section>
@@ -286,7 +286,7 @@
   <h2>Here's what you get<br>every Monday.</h2>
   <p class="section-sub">A real post, from research to publish. Scroll through it.</p>
   <div class="sample-frame">
-    <iframe src="sample-post-preview.html" title="Sample blog post preview" loading="lazy"></iframe>
+    <iframe src="sample-post-preview.html" title="Sample blog post preview"></iframe>
   </div>
 </section>
 
@@ -388,9 +388,10 @@
       <div id="card-element"></div>
       <div class="card-errors" id="card-errors"></div>
       <p style="font-size:0.8rem;color:var(--text-tertiary);margin-top:12px;">Secured by Stripe · Cancel anytime · No contracts</p>
+      <p style="font-size:0.85rem;color:var(--text);margin-top:10px;font-weight:500;">First post is free. Your card is saved now but won't be charged until after your first post goes live.</p>
       <div class="btn-row">
         <button class="btn-text" onclick="prevStep(1)">← Back</button>
-        <button class="btn btn-primary" id="pay-btn" onclick="handlePayment()">Pay $200 →</button>
+        <button class="btn btn-primary" id="pay-btn" onclick="handlePayment()">Start free trial →</button>
       </div>
     </div>
 
@@ -516,7 +517,7 @@ async function handlePayment() {
   });
   if (error) {
     document.getElementById('card-errors').textContent = error.message;
-    btn.disabled = false; btn.textContent = 'Pay $200 →'; return;
+    btn.disabled = false; btn.textContent = 'Start free trial →'; return;
   }
   try {
     const res = await fetch('/api/create-subscription', {
