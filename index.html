@@ -46,10 +46,6 @@
   .hero-sec h1 { font-size: 4rem; font-weight: 800; color: var(--text); line-height: 1.08; margin-bottom: 28px; letter-spacing: -0.03em; }
   .hero-sec h1 span { color: var(--accent); }
   .hero-sec .hero-sub { font-size: 1.15rem; color: var(--text-secondary); max-width: 500px; margin: 0 auto 40px; line-height: 1.6; font-weight: 400; }
-  .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center; }
-  .hero-cta input { padding: 17px 22px; width: 300px; background: var(--white); border: 1px solid var(--border); border-radius: 100px; color: var(--text); font-size: 0.95rem; font-family: inherit; transition: all 0.2s; box-shadow: var(--shadow-sm); }
-  .hero-cta input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0,113,227,0.12); }
-  .hero-cta input::placeholder { color: var(--text-tertiary); }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 17px 32px; border-radius: 100px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: none; transition: all 0.2s ease; text-decoration: none; font-family: inherit; letter-spacing: -0.01em; }
   .btn-primary { background: var(--accent); color: var(--white); box-shadow: 0 2px 8px rgba(0,113,227,0.2); }
   .btn-primary:hover { background: var(--accent-hover); box-shadow: 0 4px 16px rgba(0,113,227,0.3); transform: translateY(-1px); }
@@ -434,15 +430,10 @@
   <div class="eyebrow">Blog posts, fully automated</div>
   <h1>Your blog.<br><span>Every week. Done.</span></h1>
   <p class="hero-sub">One researched, SEO-optimized post published to your site every Monday. You don't write a word. Customers find you on Google instead of your competitors. $200/month.</p>
-  <div class="hero-cta">
-    <input type="email" id="hero-email" placeholder="you@company.com">
-    <a href="#signup-form" class="btn btn-primary">Get your first post free</a>
-  </div>
   <div class="demo-row">
-    <p class="demo-label">Or drop your URL — we'll show you what we'd write.</p>
     <div class="demo-input-row">
       <input type="url" id="demo-url" placeholder="yourcompany.com" aria-label="Your website URL">
-      <button class="btn btn-outline" id="demo-btn" onclick="runDemo()">See your posts →</button>
+      <button class="btn btn-primary" id="demo-btn" onclick="runDemo()">See your posts →</button>
     </div>
     <div class="demo-progress" id="demo-progress">
       <span class="progress-step"><span class="dot"></span> Reading your site</span>
@@ -911,13 +902,6 @@ async function handlePayment() {
     btn.disabled = false; btn.textContent = 'Start free trial →';
   }
 }
-
-document.querySelector('.hero-cta .btn').addEventListener('click', function(e) {
-  e.preventDefault();
-  const heroEmail = document.getElementById('hero-email').value.trim();
-  if (heroEmail) document.getElementById('email').value = heroEmail;
-  document.getElementById('signup-form').scrollIntoView({ behavior: 'smooth' });
-});
 
 // === DEMO: generate sample posts from URL ===
 const samplePosts = {
