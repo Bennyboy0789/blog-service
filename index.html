@@ -57,6 +57,123 @@
   .btn-outline:hover { border-color: var(--accent); background: rgba(0,113,227,0.02); }
   .hero-note { font-size: 0.82rem; color: var(--text-tertiary); margin-top: 20px; }
 
+  /* === DEMO HERO === */
+  .demo-row {
+    max-width: 640px;
+    margin: 48px auto 0;
+  }
+  .demo-input-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .demo-input-row input {
+    padding: 15px 20px;
+    width: 320px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .demo-input-row input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(0,113,227,0.12);
+  }
+  .demo-input-row input::placeholder { color: var(--text-tertiary); }
+  .demo-label { font-size: 0.82rem; color: var(--text-tertiary); margin-bottom: 10px; text-align: center; }
+  .demo-progress {
+    display: none;
+    text-align: center;
+    margin-top: 32px;
+  }
+  .demo-progress .progress-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 12px;
+    font-size: 0.82rem;
+    color: var(--text-tertiary);
+    opacity: 0;
+    animation: fadeStep 0.4s ease forwards;
+  }
+  .demo-progress .progress-step:nth-child(1) { animation-delay: 0.2s; }
+  .demo-progress .progress-step:nth-child(2) { animation-delay: 1.2s; }
+  .demo-progress .progress-step:nth-child(3) { animation-delay: 2.2s; }
+  .demo-progress .progress-step .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 0.8s ease-in-out infinite;
+  }
+  @keyframes fadeStep {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  .demo-results {
+    display: none;
+    margin-top: 28px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .demo-post-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: left;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: fadeCard 0.4s ease forwards;
+    opacity: 0;
+  }
+  .demo-post-card:nth-child(1) { animation-delay: 3.4s; }
+  .demo-post-card:nth-child(2) { animation-delay: 3.6s; }
+  .demo-post-card:nth-child(3) { animation-delay: 3.8s; }
+  @keyframes fadeCard {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .demo-post-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .demo-post-card .post-label {
+    font-size: 0.68rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .demo-post-card h4 {
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .demo-post-card p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .demo-results { grid-template-columns: 1fr; max-width: 400px; }
+    .demo-input-row input { width: 100%; }
+  }
+
   /* === SOCIAL PROOF === */
   .proof-row { display: flex; gap: 64px; justify-content: center; flex-wrap: wrap; }
   .proof-stat { text-align: center; }
@@ -148,6 +265,85 @@
   .faq-card:hover { box-shadow: var(--shadow-md); }
   .faq-card h3 { color: var(--text); font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
   .faq-card p { font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.6; }
+
+  /* === BEFORE/AFTER COMPARISON === */
+  .compare-table {
+    max-width: 720px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .compare-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .compare-header .col {
+    padding: 18px 28px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  .compare-header .col.before {
+    background: #f2f2f7;
+    color: var(--text-secondary);
+    border-radius: 20px 0 0 0;
+  }
+  .compare-header .col.vs {
+    background: var(--white);
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .compare-header .col.after {
+    background: var(--accent);
+    color: var(--white);
+    border-radius: 0 20px 0 0;
+  }
+  .compare-body {
+    background: var(--white);
+  }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid #f0f0f5;
+  }
+  .compare-row .cell {
+    padding: 16px 24px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .compare-row .cell.left {
+    color: #8e8e93;
+    text-align: left;
+  }
+  .compare-row .cell.mid {
+    text-align: center;
+    color: var(--text-tertiary);
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  .compare-row .cell.right {
+    color: var(--text);
+    text-align: left;
+    font-weight: 500;
+  }
+  .compare-row .cell.right::before {
+    content: '✓ ';
+    color: #34c759;
+    font-weight: 700;
+  }
+  .compare-row .cell.left::before {
+    content: '✗ ';
+    color: #d43d2e;
+    font-weight: 700;
+  }
+  @media (max-width: 768px) {
+    .compare-table { border-radius: 14px; }
+    .compare-header .col { padding: 12px 14px; font-size: 0.78rem; }
+    .compare-row .cell { padding: 12px 14px; font-size: 0.78rem; }
+  }
 
   /* === SAMPLE POST IFRAME === */
   .sample-frame {
@@ -241,6 +437,19 @@
   <div class="hero-cta">
     <input type="email" id="hero-email" placeholder="you@company.com">
     <a href="#signup-form" class="btn btn-primary">Get your first post free</a>
+  </div>
+  <div class="demo-row">
+    <p class="demo-label">Or drop your URL — we'll show you what we'd write.</p>
+    <div class="demo-input-row">
+      <input type="url" id="demo-url" placeholder="yourcompany.com" aria-label="Your website URL">
+      <button class="btn btn-outline" id="demo-btn" onclick="runDemo()">See your posts →</button>
+    </div>
+    <div class="demo-progress" id="demo-progress">
+      <span class="progress-step"><span class="dot"></span> Reading your site</span>
+      <span class="progress-step"><span class="dot"></span> Researching keywords</span>
+      <span class="progress-step"><span class="dot"></span> Writing posts</span>
+    </div>
+    <div class="demo-results" id="demo-results"></div>
   </div>
   <p class="hero-note">First post free. Cancel anytime. No contracts.</p>
 </section>
@@ -359,6 +568,52 @@
     <div class="who-chip">Landscapers</div>
   </div>
   <p class="who-note">You know you need content. You've heard SEO matters. But you're running a business — you're not going to sit down and write a blog post. <strong style="color:var(--text);">This fixes it.</strong></p>
+</section>
+
+<!-- ========== BEFORE/AFTER COMPARISON ========== -->
+<section>
+  <span class="section-label">The honest math</span>
+  <h2>Traditional blog writing<br>is a losing game.</h2>
+  <p class="section-sub">Here's what you're up against — and what changes when you switch.</p>
+  <div class="compare-table">
+    <div class="compare-header">
+      <div class="col before">Traditional</div>
+      <div class="col vs">vs</div>
+      <div class="col after">Write My Posts</div>
+    </div>
+    <div class="compare-body">
+      <div class="compare-row">
+        <div class="cell left">Hire a freelance writer — $200–500 per post</div>
+        <div class="cell mid">Cost</div>
+        <div class="cell right">$50 per post — four posts every month</div>
+      </div>
+      <div class="compare-row">
+        <div class="cell left">Write it yourself — 4+ hours you don't have</div>
+        <div class="cell mid">Time</div>
+        <div class="cell right">Fill out one survey. Done. Forever.</div>
+      </div>
+      <div class="compare-row">
+        <div class="cell left">Writers ghost, miss deadlines, burn out</div>
+        <div class="cell mid">Reliability</div>
+        <div class="cell right">Every Monday, without fail. 52 posts a year.</div>
+      </div>
+      <div class="compare-row">
+        <div class="cell left">Posts that don't rank — no keyword research</div>
+        <div class="cell mid">SEO</div>
+        <div class="cell right">Keyword research built into every post</div>
+      </div>
+      <div class="compare-row">
+        <div class="cell left">Inconsistent voice, tone, and quality</div>
+        <div class="cell mid">Quality</div>
+        <div class="cell right">Matches your business voice every time</div>
+      </div>
+      <div class="compare-row" style="border-bottom:none;">
+        <div class="cell left">You manage writers, edits, and deadlines</div>
+        <div class="cell mid">Management</div>
+        <div class="cell right">You never think about it. It just happens.</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ========== SAMPLE POST ========== -->
@@ -663,6 +918,70 @@ document.querySelector('.hero-cta .btn').addEventListener('click', function(e) {
   if (heroEmail) document.getElementById('email').value = heroEmail;
   document.getElementById('signup-form').scrollIntoView({ behavior: 'smooth' });
 });
+
+// === DEMO: generate sample posts from URL ===
+const samplePosts = {
+  _default: [
+    { title: 'How Much Does a [Service] Cost in 2026?', excerpt: 'Breaking down real pricing for homeowners so you know what to expect — and what questions to ask before you hire.' },
+    { title: '5 Signs You Need a Professional — Not a DIY Fix', excerpt: 'Some problems look simple until they\'re not. Here\'s when to put down the YouTube tutorial and pick up the phone.' },
+    { title: 'The Complete Guide to Hiring a [Industry] Company (Without Regrets)', excerpt: 'Most people hire the first company that answers. That\'s a mistake. Here\'s what you should actually look for.' }
+  ]
+};
+
+function guessIndustry(url) {
+  const known = {
+    'plumb': 'plumbing', 'hvac': 'HVAC', 'heat': 'HVAC', 'cool': 'HVAC',
+    'roof': 'roofing', 'paint': 'painting', 'coat': 'painting',
+    'dent': 'dental', 'chiro': 'chiropractic', 'doctor': 'medical',
+    'law': 'legal', 'legal': 'legal', 'attorney': 'legal',
+    'solar': 'solar', 'land': 'landscaping', 'lawn': 'landscaping',
+    'build': 'construction', 'construct': 'construction', 'remodel': 'remodeling',
+    'clean': 'cleaning', 'electric': 'electrical', 'real': 'real estate',
+    'garage': 'garage door', 'tree': 'tree service', 'pest': 'pest control'
+  };
+  for (const [k, v] of Object.entries(known)) {
+    if (url.toLowerCase().includes(k)) return v;
+  }
+  return 'home service';
+}
+
+function runDemo() {
+  const url = document.getElementById('demo-url').value.trim();
+  if (!url) { document.getElementById('demo-url').focus(); return; }
+
+  const btn = document.getElementById('demo-btn');
+  btn.disabled = true; btn.textContent = 'Generating…';
+  document.getElementById('demo-progress').style.display = 'block';
+  document.getElementById('demo-results').style.display = 'none';
+
+  const industry = guessIndustry(url);
+
+  setTimeout(() => {
+    document.getElementById('demo-progress').style.display = 'none';
+    document.getElementById('demo-results').style.display = 'grid';
+
+    const posts = samplePosts._default.map(p => ({
+      title: p.title.replace('[Service]', industry.charAt(0).toUpperCase() + industry.slice(1)).replace('[Industry]', industry.charAt(0).toUpperCase() + industry.slice(1)),
+      excerpt: p.excerpt
+    }));
+
+    let html = '';
+    const months = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+                    'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+    posts.forEach((p, i) => {
+      const month = months[(new Date().getMonth() + i) % 12];
+      html += `<div class="demo-post-card">
+        <div class="post-label">${month} — Week ${i+1}</div>
+        <h4>${p.title}</h4>
+        <p>${p.excerpt}</p>
+      </div>`;
+    });
+    document.getElementById('demo-results').innerHTML = html;
+
+    btn.disabled = false; btn.textContent = 'See your posts →';
+    document.getElementById('demo-results').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 3800);
+}
 </script>
 </body>
 </html>
